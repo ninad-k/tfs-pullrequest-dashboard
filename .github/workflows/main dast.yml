@@ -1,0 +1,26 @@
+name: "OWASP ZAP Scan"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run ZAP Baseline Scan
+      run: |
+        #docker exec zap zap-baseline.py -t http://localhost:8080 -r zap_report.html
+        docker run --rm softwaresecurityproject/zap-stable:2.14.0 zap-baseline.py -t http://localhost:8080
+      continue-on-error: true
+
+    - name: Upload ZAP Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: zap-report
+        path: zap_report.html
