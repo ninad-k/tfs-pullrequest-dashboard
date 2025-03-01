@@ -22,3 +22,4 @@ To package a new vsix installer for the extension, run:
 
 ## License
 [MIT](LICENSE)
+Test
